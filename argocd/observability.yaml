@@ -1,0 +1,50 @@
+  apiVersion: argoproj.io/v1alpha1
+kind: Application
+
+metadata:
+  name: observability
+  namespace: argocd
+
+spec:
+  project: default
+
+  sources:
+
+    # --------------------------------
+    # Monitoring Helm chart
+    # --------------------------------
+    - repoURL: https://github.com/Jignesh4611/Message-Driven-K8s.git
+      targetRevision: main
+      path: monitoring-config
+
+      helm:
+        releaseName: monitoring
+
+    # --------------------------------
+    # Git repository containing OTel values
+    # --------------------------------
+    - repoURL: https://github.com/Jignesh4611/Message-Driven-K8s.git
+      targetRevision: main
+      ref: values
+
+    # --------------------------------
+    # OpenTelemetry official Helm chart
+    # --------------------------------
+    - repoURL: https://open-telemetry.github.io/opentelemetry-helm-charts
+      chart: opentelemetry-collector
+      targetRevision: 0.141.0
+
+      helm:
+        releaseName: my-opentelemetry
+
+        valueFiles:
+          - $values/otel-value.yaml
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
