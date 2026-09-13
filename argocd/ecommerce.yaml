@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ecommerce-app
+  namespace: argocd
+
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/Jignesh4611/Message-Driven-K8s.git
+    targetRevision: main
+    path: ecommerce-app
+    helm:
+      releaseName: ecommerce-app
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ecom
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
