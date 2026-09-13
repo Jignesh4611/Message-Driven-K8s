@@ -5,6 +5,7 @@ This project demonstrates how to collect application metrics using
 scrape them with **Prometheus**, and visualize them in **Grafana**.
 
 Source For Application Code : https://github.com/Jignesh4611/Message-Driven
+For video Understading visit : https://x.com/JIGNESH4611
 
 ## Architecture
 
