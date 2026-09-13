@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+      name: order-src
+      namespace: ecom
+spec: 
+  replicas: {{ .Values.order.replicaCount}}
+  selector:
+    matchLabels: 
+      app: order-src
+  template:
+    metadata: 
+      labels: 
+        app: order-src 
+    spec : 
+      containers:
+      - name: order-src
+        image : "{{ .Values.order.image.repository }}:{{ .Values.order.image.tag }}"
+        resources: 
+          requests: 
+            cpu : "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+        ports: 
+          - containerPort : 3000

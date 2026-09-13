@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+      name: product-src
+      namespace: ecom
+spec: 
+  replicas: {{ .Values.product.replicaCount}}
+  selector:
+    matchLabels: 
+      app: product-src
+  template:
+    metadata: 
+      labels: 
+        app: product-src 
+    spec: 
+      containers:
+      - name: product-src
+        image : "{{ .Values.product.image.repository }}:{{ .Values.product.image.tag }}"
+        resources: 
+          requests: 
+            cpu : "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+        ports: 
+          - containerPort : 3000

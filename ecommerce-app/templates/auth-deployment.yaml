@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+      name: auth-src
+      namespace: ecom
+spec: 
+  replicas: {{ .Values.auth.replicaCount}}
+  selector:
+    matchLabels: 
+      app: auth-src
+  template:
+    metadata: 
+      labels: 
+        app: auth-src 
+    spec : 
+      containers:
+      - name: auth-src
+        image : "{{ .Values.auth.image.repository }}:{{ .Values.auth.image.tag }}"
+        resources: 
+          requests: 
+            cpu : "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+        ports: 
+          - containerPort : 3000
